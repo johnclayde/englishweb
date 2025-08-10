@@ -10,7 +10,7 @@ export const PlayList = () => {
 
   useEffect(() => {
     const fetchTracks = async () => {
-      const result = await getAllSongs();
+      const result = await getAllSongs(1);
       setTracks(result);
     };
     fetchTracks();

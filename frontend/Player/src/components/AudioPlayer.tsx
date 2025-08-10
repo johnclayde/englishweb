@@ -8,17 +8,15 @@ import { VolumeControl } from './VolumeControl';
 import { PlayList } from './PlayList';
 import { Caption } from './Caption';
 import { useAudio } from '../context/AudioContext';
-import {tracks} from '../data/engtracks';
-//import {getAllSongs} from "../data/dataService";
+import {getAllSongs} from "../data/dataService";
 
 
 export const AudioPlayer= ()  =>{
-    const { currentTrack, audioRef } = useAudio();
+    const { audioRef } = useAudio();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [autoPlayAll, setAutoPlayAll] = useState(false);
     const [openDrawer,setOpenDrawer] = useState(false);
-    //const tracks = getAllSongs(1);
-    console.log("current track :" + currentTrack);
+    const tracks = getAllSongs(1);
 
   
     useEffect(() => {

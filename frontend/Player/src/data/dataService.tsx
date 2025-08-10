@@ -28,7 +28,6 @@ export const getAllSongs = async (id?: number): Promise<Track[]> => {
       thumbnail: song.thumbnail ? baseUrl + song.thumbnail : song.thumbnail,
       scripts: song.scripts ? baseUrl + song.scripts : song.scripts,
     }));
-    console.log(updatedSongs);
     return updatedSongs;
   } catch (error) {
     console.error("Failed to fetch songs:", error);

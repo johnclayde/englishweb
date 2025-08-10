@@ -10,7 +10,7 @@ export const AudioProvider = ({ children }) => {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-
+  
   const playTrack = (track) => {
     if (track.src) {
       audioRef.current.src = `${track.src}`;
