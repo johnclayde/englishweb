@@ -1,16 +1,32 @@
 import { createContext, useContext, useRef, useState } from 'react';
+import { getAllSongs } from '../data/dataService';
 
 export const AudioContext = createContext(null);
 
 export const useAudio = () => useContext(AudioContext);
 
 export const AudioProvider = ({ children }) => {
-  const albumId = 1;
+  const [albumId, setAlbumId] = useState<number | null>(null);
+  const [tracks, setTracks] = useState<Track[]>([]);
+
   const audioRef = useRef(new Audio());
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   
+
+
+  const loadAlbum = async (id: number) => {
+    setAlbumId(id);
+    const songs = await getAllSongs(id);
+    setTracks(songs);
+    //setCurrentTrack(0);
+    setIsPlaying(false);
+   // if (audioRef.current) {
+   //   audioRef.current.src = songs[0]?.src || "";
+   // }
+  };
+
   const playTrack = (track) => {
     if (track.src) {
       audioRef.current.src = `${track.src}`;
@@ -45,6 +61,7 @@ export const AudioProvider = ({ children }) => {
     <AudioContext.Provider
       value={{
         audioRef,
+        tracks,
         currentTrack,
         isPlaying,
         volume,
@@ -52,7 +69,8 @@ export const AudioProvider = ({ children }) => {
         togglePlay,
         seek,
         changeVolume,
-        albumId
+        albumId,
+        loadAlbum
       }}
     >
       {children}

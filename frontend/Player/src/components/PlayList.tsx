@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
-import { getAllSongs } from "../data/dataService"; // Adjust path as needed
 import type { Track } from "../data/data_type";
 import { useAudio } from "../context/AudioContext";
 
 
 export const PlayList = () => {
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const { playTrack, currentTrack } = useAudio();
-
-  useEffect(() => {
-    const fetchTracks = async () => {
-      const result = await getAllSongs(1);
-      setTracks(result);
-    };
-    fetchTracks();
-  }, []);
+  const { tracks, playTrack, currentTrack } = useAudio();
 
   return (
     <ul className="p-2">

@@ -8,15 +8,25 @@ import { VolumeControl } from './VolumeControl';
 import { PlayList } from './PlayList';
 import { Caption } from './Caption';
 import { useAudio } from '../context/AudioContext';
-import {getAllSongs} from "../data/dataService";
+import { useSearchParams } from "react-router-dom";
 
 
 export const AudioPlayer= ()  =>{
-    const { audioRef } = useAudio();
+
+    const { tracks, loadAlbum, audioRef } = useAudio();
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [autoPlayAll, setAutoPlayAll] = useState(false);
     const [openDrawer,setOpenDrawer] = useState(false);
-    const tracks = getAllSongs(1);
+  
+    const [params] = useSearchParams();
+    const albumId = params.get("albumId");
+
+    useEffect(() => {
+     if (albumId) {
+         loadAlbum(Number(albumId));
+        }
+      }, [albumId, loadAlbum]);
 
   
     useEffect(() => {

@@ -12,7 +12,7 @@ export const AlbumTest = () => {
   const navigate = useNavigate();
 
   const handleAlbumClick = (albumId: number) => {
-    navigate(`/audio`);
+    navigate(`/audio?albumId=${albumId}`);
     //update playlist
   };
 
@@ -32,11 +32,11 @@ export const AlbumTest = () => {
           <div key={album.id}
                onClick={() => handleAlbumClick(album.id)}
                className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-            <img
+               <img
               src={`http://127.0.0.1:8000/${album.cover}`}
               alt={album.name}
               className="w-32 h-32 object-cover rounded mb-4"
-            />
+              />
             <div className="text-lg font-semibold text-gray-700 mb-2">ID: {album.id}</div>
             <div className="text-md text-gray-600">{album.name}</div>
           </div>
