@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useRef, useState, useCallback } from 'react';
 import { getAllSongs } from '../data/dataService';
 
 export const AudioContext = createContext(null);
@@ -16,46 +16,46 @@ export const AudioProvider = ({ children }) => {
   
 
 
-  const loadAlbum = async (id: number) => {
+  const loadAlbum = useCallback(async (id: number) => {
     setAlbumId(id);
     const songs = await getAllSongs(id);
     setTracks(songs);
     //setCurrentTrack(0);
     setIsPlaying(false);
-   // if (audioRef.current) {
-   //   audioRef.current.src = songs[0]?.src || "";
-   // }
-  };
+    // if (audioRef.current) {
+    //   audioRef.current.src = songs[0]?.src || "";
+    // }
+  }, []);
 
-  const playTrack = (track) => {
+  const playTrack = useCallback((track) => {
     if (track.src) {
       audioRef.current.src = `${track.src}`;
       audioRef.current.play();
       setIsPlaying(true);
       setCurrentTrack(track);
     }
-  };
+  }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
-  const seek = (percent) => {
+  const seek = useCallback((percent) => {
     if (audioRef.current.duration) {
       audioRef.current.currentTime = (percent / 100) * audioRef.current.duration;
     }
-  };
+  }, []);
 
-  const changeVolume = (val) => {
+  const changeVolume = useCallback((val) => {
     const newVolume = parseFloat(val);
     audioRef.current.volume = newVolume;
     setVolume(newVolume);
-  };
+  }, []);
 
   return (
     <AudioContext.Provider

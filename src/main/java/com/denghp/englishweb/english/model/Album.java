@@ -21,6 +21,9 @@ public class Album {
     private String name;
 
 
+    @Column(name = "cover")
+    private String cover;
+    
     @Column(name = "level")
     private Integer level;
 

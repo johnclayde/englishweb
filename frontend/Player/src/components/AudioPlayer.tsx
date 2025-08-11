@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
 import { RiMenuAddLine } from 'react-icons/ri';
 import { TrackInfo } from './TrackInfo';
@@ -13,9 +13,8 @@ import { useSearchParams } from "react-router-dom";
 
 export const AudioPlayer= ()  =>{
 
-    const { tracks, loadAlbum, audioRef } = useAudio();
+    const { tracks, loadAlbum, audioRef, currentTrack, playTrack } = useAudio();
 
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [autoPlayAll, setAutoPlayAll] = useState(false);
     const [openDrawer,setOpenDrawer] = useState(false);
   
@@ -27,17 +26,26 @@ export const AudioPlayer= ()  =>{
          loadAlbum(Number(albumId));
         }
       }, [albumId, loadAlbum]);
-
   
+    const currentIndex = useMemo(() => {
+        if (!currentTrack || !tracks || tracks.length === 0) {
+            return -1;
+        }
+        return tracks.findIndex(track => track.id === currentTrack.id);
+    }, [currentTrack, tracks]);
+  
+    const handleTogglePlayMode = useCallback(() => {
+      setAutoPlayAll(prev => !prev);
+    }, []);
+
     useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleEnded = () => {
       if (autoPlayAll) {
-        // Play next track if exists
-        if (currentIndex < tracks.length - 1) {
-          setCurrentIndex(currentIndex + 1);
+        if (currentIndex !== -1 && currentIndex < tracks.length - 1) {
+          playTrack(tracks[currentIndex + 1]);
         }
       } else {
         // Repeat current track
@@ -45,12 +53,11 @@ export const AudioPlayer= ()  =>{
         audio.play();
       }
     };
-
     
     audio.addEventListener('ended', handleEnded);
     return () => audio.removeEventListener('ended', handleEnded);
 
-    }, [audioRef, autoPlayAll, currentIndex, tracks.length]);
+    }, [audioRef, autoPlayAll, currentIndex, playTrack, tracks]);
 
     return (
     <div className="bg-slate-950 rounded-xl shadow-lg w-1/2 overflow-auto">
@@ -58,7 +65,7 @@ export const AudioPlayer= ()  =>{
         <TrackInfo />
         <div className="w-full flex flex-col items-center gap-1 m-auto flex-1">
             <Caption />  
-            <Controls />
+            <Controls autoPlayAll={autoPlayAll} onTogglePlayMode={handleTogglePlayMode} />
             <ProgressBar />
         </div>
         <div className=" w-full flex flex-col items-center gap-1 m-auto flex-1 text-gray-400">

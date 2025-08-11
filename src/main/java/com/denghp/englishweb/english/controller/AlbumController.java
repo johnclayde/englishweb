@@ -7,7 +7,6 @@ import com.denghp.englishweb.english.model.Album;
 import com.denghp.englishweb.english.service.AlbumService;
 import com.denghp.englishweb.english.repository.AlbumRepository;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/enalbum")
 public class AlbumController {

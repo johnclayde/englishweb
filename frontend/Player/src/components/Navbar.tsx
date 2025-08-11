@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { AlbumTest } from "./AlbumTest";
+import { AlbumPage } from "./Album";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +29,7 @@ export const Navbar = () => {
             to="/audio"
             className={({ isActive }) => (isActive ? "underline" : "")}
           >
-            AudioPlayer
+            Player
           </NavLink>
         </li>
         <li>
@@ -37,7 +37,7 @@ export const Navbar = () => {
             to="/album"
             className={({ isActive }) => (isActive ? "underline" : "")}
           >
-            AlbumTest
+            All Books
           </NavLink>
         </li>
       </ul>

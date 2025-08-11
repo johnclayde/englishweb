@@ -7,7 +7,7 @@ type Album = {
   cover: string;
 };
 
-export const AlbumTest = () => {
+export const AlbumPage = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const navigate = useNavigate();
 
@@ -25,9 +25,9 @@ export const AlbumTest = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Album List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-6">All Books</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {albums.map((album) => (
           <div key={album.id}
                onClick={() => handleAlbumClick(album.id)}
@@ -37,7 +37,6 @@ export const AlbumTest = () => {
               alt={album.name}
               className="w-32 h-32 object-cover rounded mb-4"
               />
-            <div className="text-lg font-semibold text-gray-700 mb-2">ID: {album.id}</div>
             <div className="text-md text-gray-600">{album.name}</div>
           </div>
         ))}

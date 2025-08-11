@@ -13,7 +13,7 @@ public class EnglishwebApplication {
 		SpringApplication.run(EnglishwebApplication.class, args);
 	}
 
-    @GetMapping("/hello")
+    @GetMapping("/hello_a")
     public String hello() {
         return "Hello, boy!";
     }
